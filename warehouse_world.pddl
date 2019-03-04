@@ -34,13 +34,13 @@
    (:action robotMove
       :parameters (?l1 - location ?l2 - location ?r - robot)
       :precondition (and (free ?r)(at ?r ?l1) (no-robot ?l2)(connected ?l1 ?l2))
-      :effect (and (at ?r ?l2)(not(at ?r ?l1))(no-robot ?l1))
+      :effect (and (at ?r ?l2)(not(at ?r ?l1))(no-robot ?l1)(not(no-robot ?l2)))
    )
 
    (:action robotMoveWithPallette
       :parameters (?l1 - location ?l2 - location ?r - robot ?p - pallette)
       :precondition (and (at ?r ?l1)(at ?p ?l1)(no-robot ?l2)(no-pallette ?l2)(connected ?l1 ?l2))
-      :effect (and (no-robot ?l1)(no-pallette ?l1)(at ?r ?l2)(at ?p ?l2))
+      :effect (and (no-robot ?l1)(no-pallette ?l1)(at ?r ?l2)(at ?p ?l2)(not(at ?r ?l1))(not(at ?p ?l1))(not(no-robot ?l2))(not(no-pallette ?l2)))
    )
 
    (:action moveItemFromPalletteToShipment
@@ -51,7 +51,7 @@
 
    (:action completeShipment
       :parameters (?s - shipment ?o - order ?l - location)
-      :precondition (and (started ?s)(not (complete ?s))(packing-at ?s ?l)(ships ?s ?o))
+      :precondition (and (started ?s)(not (complete ?s))(packing-at ?s ?l)(packing-location ?l)(ships ?s ?o))
       :effect (and (complete ?s)(available ?l))
    )
 
